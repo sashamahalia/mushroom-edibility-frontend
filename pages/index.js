@@ -16,8 +16,14 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
 
   const handleButtonClick = () => {
-    setMushroomAttributes({ ...deepcopy(mushroomAttributes) });
     setLoading(true);
+  };
+
+  const updateFormValue = (e, attributeName) => {
+    setMushroomAttributes({
+      ...deepcopy(mushroomAttributes),
+      [attributeName]: e.target.value,
+    });
   };
 
   return (
@@ -25,15 +31,23 @@ const Home = () => {
       <Flex direction="column" background="gray.100" p={12} rounded={6}>
         <Heading mb={6}>Select Mushroom Attributes</Heading>
         <Stack spacing={3}>
-          <Select variant="filled" isRequired={true} placeholder="Cap shape">
-            <option value="option1">Bell shaped</option>
+          <Select
+            onChange={(e) => updateFormValue(e, "capShape")}
+            variant="filled"
+            isRequired={true}
+            placeholder="Cap shape"
+          >
+            <option value="b">Bell shaped</option>
             <option value="c">Conical</option>
             <option value="x">Convex</option>
             <option value="f">Flat</option>
           </Select>
-          brown=n,buff=b,cinnamon=c,gray=g,green=r,
-          pink=p,purple=u,red=e,white=w,yellow=y
-          <Select variant="filled" isRequired={true} placeholder="Cap colour">
+          <Select
+            onChange={(e) => updateFormValue(e, "capColor")}
+            variant="filled"
+            isRequired={true}
+            placeholder="Cap colour"
+          >
             <option value="n">Brown</option>
             <option value="b">Buff</option>
             <option value="c">Cinnamon</option>
@@ -45,11 +59,21 @@ const Home = () => {
             <option value="w">White</option>
             <option value="y">Yellow</option>
           </Select>
-          <Select variant="filled" isRequired={true} placeholder="Stalk shape">
+          <Select
+            onChange={(e) => updateFormValue(e, "stalkShape")}
+            variant="filled"
+            isRequired={true}
+            placeholder="Stalk shape"
+          >
             <option value="e">Enlarging</option>
             <option value="option2">Tapering</option>
           </Select>
-          <Select variant="filled" isRequired={true} placeholder="Gill color">
+          <Select
+            onChange={(e) => updateFormValue(e, "gillColor")}
+            variant="filled"
+            isRequired={true}
+            placeholder="Gill color"
+          >
             <option value="k">Black</option>
             <option value="n">Brown</option>
             <option value="b">Buff</option>
@@ -63,7 +87,12 @@ const Home = () => {
             <option value="w">White</option>
             <option value="y">Yellow</option>
           </Select>
-          <Select variant="filled" isRequired={true} placeholder="Odor">
+          <Select
+            onChange={(e) => updateFormValue(e, "odor")}
+            variant="filled"
+            isRequired={true}
+            placeholder="Odor"
+          >
             <option value="a">Almond</option>
             <option value="l">Anise</option>
             <option value="c">Creosote</option>
@@ -74,11 +103,21 @@ const Home = () => {
             <option value="P">Pungent</option>
             <option value="s">Spicy</option>
           </Select>
-          <Select variant="filled" isRequired={true} placeholder="Bruises?">
+          <Select
+            onChange={(e) => updateFormValue(e, "bruises")}
+            variant="filled"
+            isRequired={true}
+            placeholder="Bruises?"
+          >
             <option value="t">Bruised</option>
             <option value="f">Not bruised</option>
           </Select>
-          <Select variant="filled" isRequired={true} placeholder="Population">
+          <Select
+            onChange={(e) => updateFormValue(e, "population")}
+            variant="filled"
+            isRequired={true}
+            placeholder="Population"
+          >
             <option value="a">Abundant</option>
             <option value="c">Clustered</option>
             <option value="n">Numerous</option>
