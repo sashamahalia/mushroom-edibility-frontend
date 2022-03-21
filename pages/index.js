@@ -1,6 +1,25 @@
 import { Button, Flex, Heading, Select, Stack } from "@chakra-ui/react";
+import { useState } from "react";
+import { GiMushroomGills } from "react-icons/gi";
+import * as deepcopy from "deepcopy";
 
-export default function Home() {
+const Home = () => {
+  const [mushroomAttributes, setMushroomAttributes] = useState({
+    capShape: "",
+    capColor: "",
+    stalkShape: "",
+    gillColor: "",
+    odor: "",
+    bruises: "",
+    population: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleButtonClick = () => {
+    setMushroomAttributes({ ...deepcopy(mushroomAttributes) });
+    setLoading(true);
+  };
+
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
       <Flex direction="column" background="gray.100" p={12} rounded={6}>
@@ -44,8 +63,6 @@ export default function Home() {
             <option value="w">White</option>
             <option value="y">Yellow</option>
           </Select>
-          almond=a,anise=l,creosote=c,fishy=y,foul=f,
-          musty=m,none=n,pungent=p,spicy=s
           <Select variant="filled" isRequired={true} placeholder="Odor">
             <option value="a">Almond</option>
             <option value="l">Anise</option>
@@ -58,11 +75,9 @@ export default function Home() {
             <option value="s">Spicy</option>
           </Select>
           <Select variant="filled" isRequired={true} placeholder="Bruises?">
-            bruises=t,no=f
             <option value="t">Bruised</option>
             <option value="f">Not bruised</option>
           </Select>
-          abundant=a,clustered=c,numerous=n, scattered=s,several=v,solitary=y
           <Select variant="filled" isRequired={true} placeholder="Population">
             <option value="a">Abundant</option>
             <option value="c">Clustered</option>
@@ -73,10 +88,19 @@ export default function Home() {
             <option value="y">Solitary</option>
           </Select>
         </Stack>
-        <Button mt={6} colorScheme="teal">
+        <Button
+          onClick={() => handleButtonClick()}
+          isLoading={loading}
+          loadingText="Submitting"
+          leftIcon={<GiMushroomGills />}
+          mt={6}
+          colorScheme="teal"
+        >
           Submit
         </Button>
       </Flex>
     </Flex>
   );
-}
+};
+
+export default Home;
