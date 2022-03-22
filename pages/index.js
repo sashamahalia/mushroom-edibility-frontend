@@ -1,22 +1,31 @@
 import { Button, Flex, Heading, Select, Stack } from "@chakra-ui/react";
 import { useState } from "react";
 import { GiMushroomGills } from "react-icons/gi";
-import * as deepcopy from "deepcopy";
+import deepcopy from "deepcopy";
 
 const Home = () => {
   const [mushroomAttributes, setMushroomAttributes] = useState({
-    capShape: "",
-    capColor: "",
-    stalkShape: "",
-    gillColor: "",
+    "cap-shape": "",
+    "cap-color": "",
+    "stalk-shape": "",
+    "gill-color": "",
     odor: "",
     bruises: "",
     population: "",
   });
   const [loading, setLoading] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     setLoading(true);
+    const response = await fetch("/api/", {
+      method: "POST",
+      body: JSON.stringify(mushroomAttributes),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
   };
 
   const updateFormValue = (e, attributeName) => {
@@ -32,7 +41,7 @@ const Home = () => {
         <Heading mb={6}>Select Mushroom Attributes</Heading>
         <Stack spacing={3}>
           <Select
-            onChange={(e) => updateFormValue(e, "capShape")}
+            onChange={(e) => updateFormValue(e, "cap-shape")}
             variant="filled"
             isRequired={true}
             placeholder="Cap shape"
@@ -43,7 +52,7 @@ const Home = () => {
             <option value="f">Flat</option>
           </Select>
           <Select
-            onChange={(e) => updateFormValue(e, "capColor")}
+            onChange={(e) => updateFormValue(e, "cap-color")}
             variant="filled"
             isRequired={true}
             placeholder="Cap colour"
@@ -60,7 +69,7 @@ const Home = () => {
             <option value="y">Yellow</option>
           </Select>
           <Select
-            onChange={(e) => updateFormValue(e, "stalkShape")}
+            onChange={(e) => updateFormValue(e, "stalk-shape")}
             variant="filled"
             isRequired={true}
             placeholder="Stalk shape"
@@ -69,7 +78,7 @@ const Home = () => {
             <option value="option2">Tapering</option>
           </Select>
           <Select
-            onChange={(e) => updateFormValue(e, "gillColor")}
+            onChange={(e) => updateFormValue(e, "gill-color")}
             variant="filled"
             isRequired={true}
             placeholder="Gill color"
@@ -128,7 +137,7 @@ const Home = () => {
           </Select>
         </Stack>
         <Button
-          onClick={() => handleButtonClick()}
+          onClick={handleButtonClick}
           isLoading={loading}
           loadingText="Submitting"
           leftIcon={<GiMushroomGills />}
