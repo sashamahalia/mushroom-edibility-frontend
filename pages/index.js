@@ -17,15 +17,24 @@ const Home = () => {
 
   const handleButtonClick = async () => {
     setLoading(true);
-    const response = await fetch("/api/", {
-      method: "POST",
-      body: JSON.stringify(mushroomAttributes),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      console.log(mushroomAttributes);
+      const response = await fetch("http://localhost:5000/predict", {
+        method: "POST",
+        body: JSON.stringify(mushroomAttributes),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    const data = await response.json();
+      const data = await response.json();
+      console.log("data", data);
+    } catch (error) {
+      console.log("error handling not yet implemented");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const updateFormValue = (e, attributeName) => {
@@ -36,8 +45,14 @@ const Home = () => {
   };
 
   return (
-    <Flex height="100vh" alignItems="center" justifyContent="center">
-      <Flex direction="column" background="gray.100" p={12} rounded={6}>
+    <Flex
+      height="100vh"
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Heading>Invent a Mushroom!</Heading>
+      <Flex direction="column" background="gray.100" mt={6} p={12} rounded={6}>
         <Heading mb={6}>Select Mushroom Attributes</Heading>
         <Stack spacing={3}>
           <Select
@@ -75,7 +90,7 @@ const Home = () => {
             placeholder="Stalk shape"
           >
             <option value="e">Enlarging</option>
-            <option value="option2">Tapering</option>
+            <option value="t">Tapering</option>
           </Select>
           <Select
             onChange={(e) => updateFormValue(e, "gill-color")}
