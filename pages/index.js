@@ -1,4 +1,12 @@
-import { Button, Flex, Heading, Select, Stack } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Heading,
+  Select,
+  Stack,
+  Alert,
+  AlertIcon,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { GiMushroomGills } from "react-icons/gi";
 import deepcopy from "deepcopy";
@@ -14,11 +22,20 @@ const Home = () => {
     population: "",
   });
   const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState(false);
 
   const handleButtonClick = async () => {
+    setFormError(false);
+    for (const prop in mushroomAttributes) {
+      if (!mushroomAttributes[prop]) {
+        setFormError(true);
+        return;
+      }
+    }
+
     setLoading(true);
+
     try {
-      console.log(mushroomAttributes);
       const response = await fetch("http://localhost:5000/predict", {
         method: "POST",
         body: JSON.stringify(mushroomAttributes),
@@ -44,6 +61,13 @@ const Home = () => {
     });
   };
 
+  const ErrorMessage = (
+    <Alert mb={6} status="error">
+      <AlertIcon />
+      All attributes must be filled
+    </Alert>
+  );
+
   return (
     <Flex
       height="100vh"
@@ -53,6 +77,7 @@ const Home = () => {
     >
       <Heading>Invent a Mushroom!</Heading>
       <Flex direction="column" background="gray.100" mt={6} p={12} rounded={6}>
+        {formError && ErrorMessage}
         <Heading mb={6}>Select Mushroom Attributes</Heading>
         <Stack spacing={3}>
           <Select
